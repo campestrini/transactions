@@ -27,6 +27,10 @@ public class CreateTransactionDTO {
     private String mcc;
 
     @NotBlank(message = "Mcc is required")
-    private String merchant;
+    private String seller;
+
+    @NotNull(message = "Fallback is required")
+    private Boolean fallback;
+
 
 }
