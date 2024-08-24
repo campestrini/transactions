@@ -1,7 +1,7 @@
 package com.campestrini.transactions.domain.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -10,8 +10,9 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class CreateTransactionDTO {
-    @NotBlank(message = "Account is required")
+@Builder
+public class TransactionDTO {
+    @NotBlank(message = "id")
     private String id;
 
     @NotBlank(message = "Account is required")
@@ -26,11 +27,10 @@ public class CreateTransactionDTO {
     @Length(min = 4, max = 4, message = "MCC must have four characters")
     private String mcc;
 
-    @NotBlank(message = "Mcc is required")
+    @NotBlank(message = "Seller is required")
     private String seller;
 
     @NotNull(message = "Fallback is required")
     private Boolean fallback;
-
 
 }

@@ -1,21 +1,24 @@
 package com.campestrini.transactions.infrastructure.repository;
 
 import com.campestrini.transactions.adapters.repository.AccountMongoRepository;
-import com.campestrini.transactions.domain.repository.Account;
+import com.campestrini.transactions.domain.model.Account;
+import com.campestrini.transactions.domain.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
-public class AccountRepositoryImpl implements Account {
+public class AccountRepositoryImpl implements AccountRepository {
 
     private final AccountMongoRepository balanceRepository;
     @Override
-    public com.campestrini.transactions.domain.model.Account findByCode(String code) {
-        return balanceRepository.findByCode(code);
+    public Optional<Account> findByCode(String code) {
+        return Optional.ofNullable(balanceRepository.findByCode(code));
     }
 
-    public void save(com.campestrini.transactions.domain.model.Account account) {
+    public void save(Account account) {
         balanceRepository.save(account);
     }
 }

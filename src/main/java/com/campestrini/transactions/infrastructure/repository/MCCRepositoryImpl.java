@@ -6,6 +6,8 @@ import com.campestrini.transactions.domain.repository.MCCRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -13,7 +15,7 @@ public class MCCRepositoryImpl implements MCCRepository {
 
     private final MCCMongoRepository mccMongoRepository;
     @Override
-    public Mcc findByCode(String code) {
-        return mccMongoRepository.findByCodesContaining(code);
+    public Optional<Mcc> findByCode(String code) {
+        return Optional.ofNullable(mccMongoRepository.findByCodesContaining(code));
     }
 }

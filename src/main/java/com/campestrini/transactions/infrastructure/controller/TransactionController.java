@@ -1,6 +1,6 @@
 package com.campestrini.transactions.infrastructure.controller;
 
-import com.campestrini.transactions.domain.dto.CreateTransactionDTO;
+import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusDTO;
 import com.campestrini.transactions.usecase.EvaluateTransactionUseCase;
 import jakarta.validation.Valid;
@@ -20,8 +20,8 @@ public class TransactionController {
     private final EvaluateTransactionUseCase evaluateTransactionUseCase;
 
     @PostMapping
-    public ResponseEntity<TransactionStatusDTO> create(@Valid @RequestBody CreateTransactionDTO createTransactionDTO) {
-            TransactionStatusDTO transactionStatusDTO = evaluateTransactionUseCase.execute(createTransactionDTO);
+    public ResponseEntity<TransactionStatusDTO> evaluate(@Valid @RequestBody TransactionDTO transactionDTO) {
+            TransactionStatusDTO transactionStatusDTO = evaluateTransactionUseCase.execute(transactionDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(transactionStatusDTO);
     }
 }
