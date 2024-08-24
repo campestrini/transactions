@@ -1,4 +1,4 @@
-package com.campestrini.transactions.infrastructure.controller;
+package com.campestrini.transactions.infrastructure;
 
 import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusDTO;
@@ -22,6 +22,6 @@ public class TransactionController {
     @PostMapping
     public ResponseEntity<TransactionStatusDTO> evaluate(@Valid @RequestBody TransactionDTO transactionDTO) {
             TransactionStatusDTO transactionStatusDTO = evaluateTransactionUseCase.execute(transactionDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(transactionStatusDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(transactionStatusDTO);
     }
 }

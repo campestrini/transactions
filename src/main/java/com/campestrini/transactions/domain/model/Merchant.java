@@ -6,16 +6,14 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 
 @Getter
 @Setter
 @Builder
-@Document(collection = "sellers")
-public class Seller {
+@Document(collection = "merchants")
+public class Merchant {
     @Id
     private String id;
     private String name;
-    private String description;
+    private String account;
 }

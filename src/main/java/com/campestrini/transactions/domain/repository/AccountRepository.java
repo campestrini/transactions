@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface AccountRepository {
     public Optional<Account> findByCode(String code);
+
+    public void save(Account account);
 }
