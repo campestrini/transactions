@@ -59,6 +59,7 @@ public class TransactionEvaluatorTest {
 
         verify(merchantRepository).findByName("UBER EATS                   SAO PAULO BR");
         verify(accountService).chargeAccount("FOOD", transactionDTO.getTotalAmount());
+        verify(mccRepository, never()).findByCode(any(String.class));
 
         assertEquals(TransactionStatusCode.REJECTED.getCode(), transactionStatusDTO.getCode());
     }
@@ -83,6 +84,7 @@ public class TransactionEvaluatorTest {
 
         verify(merchantRepository).findByName("UBER EATS                   SAO PAULO BR");
         verify(accountService).chargeAccount("FOOD", transactionDTO.getTotalAmount());
+        verify(mccRepository, never()).findByCode(any(String.class));
 
         assertEquals(TransactionStatusCode.APPROVED.getCode(), transactionStatusDTO.getCode());
     }
@@ -160,6 +162,7 @@ public class TransactionEvaluatorTest {
 
         verify(merchantRepository).findByName("invalid merchant");
         verify(mccRepository).findByCode("invalid mcc");
+        verify(accountService, never()).chargeAccount(any(String.class), any(BigDecimal.class));
 
         assertEquals(TransactionStatusCode.REJECTED.getCode(), transactionStatusDTO.getCode());
     }

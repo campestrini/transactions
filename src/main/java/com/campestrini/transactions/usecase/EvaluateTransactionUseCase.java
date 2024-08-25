@@ -23,7 +23,7 @@ public class EvaluateTransactionUseCase {
             return transactionStatusDTO;
         }
 
-        if (transactionStatusDTO.getCode().equals(TransactionStatusCode.REJECTED)) {
+        if (transactionStatusDTO.getCode().equals(TransactionStatusCode.REJECTED.getCode())) {
             return fallbackTransactionEvaluator.evaluate(transactionDTO);
         }
 

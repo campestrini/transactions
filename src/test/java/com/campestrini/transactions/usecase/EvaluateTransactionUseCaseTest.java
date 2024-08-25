@@ -3,109 +3,84 @@ package com.campestrini.transactions.usecase;
 import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusCode;
 import com.campestrini.transactions.domain.dto.TransactionStatusDTO;
-import com.campestrini.transactions.domain.model.Account;
-import com.campestrini.transactions.domain.model.Mcc;
-import com.campestrini.transactions.infrastructure.repository.AccountRepositoryImpl;
-import com.campestrini.transactions.infrastructure.repository.MCCRepositoryImpl;
-import org.junit.jupiter.api.Test;
+import com.campestrini.transactions.service.strategy.FallbackTransactionEvaluator;
+import com.campestrini.transactions.service.strategy.TransactionEvaluator;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class EvaluateTransactionUseCaseTest {
 
     @Mock
-    private MCCRepositoryImpl mccRepository;
+    private TransactionEvaluator transactionEvaluator;
 
     @Mock
-    private AccountRepositoryImpl accountRepository;
+    private FallbackTransactionEvaluator fallbackTransactionEvaluator;
 
     @InjectMocks
     private EvaluateTransactionUseCase evaluateTransactionUseCase;
 
-    @Test
-    public void givenInvalidMcc_thenShouldReturnRejectedTransaction() {
-        TransactionDTO transactionDTO = TransactionDTO.builder()
-                .mcc("INVALID_MCC")
-                .build();
-
-        when(mccRepository.findByCode("INVALID_MCC")).thenReturn(Optional.empty());
-
-        TransactionStatusDTO transactionStatusDTO = evaluateTransactionUseCase.execute(transactionDTO);
-
-        verify(mccRepository).findByCode("INVALID_MCC");
-        assertEquals(TransactionStatusCode.REJECTED.getCode(), transactionStatusDTO.getCode());
+    private static Stream<Arguments> transactionsTestCases() {
+        return Stream.of(
+                Arguments.of(TransactionStatusCode.APPROVED.getCode()),
+                Arguments.of(TransactionStatusCode.REJECTED.getCode())
+        );
     }
+
     @ParameterizedTest
-    @CsvSource({
-            "1.0, 1.0",
-            "1.0, 2.0"
-    })
-    public void givenValidMccAndAccountWithSufficientBalance_thenShouldReturnApprovedTransaction(String totalAmount, String balance) {
+    @MethodSource("transactionsTestCases")
+    public void testExecuteWithNormalTransaction(String transactionCode) {
         TransactionDTO transactionDTO = TransactionDTO.builder()
-                .mcc("5411")
-                .totalAmount(new BigDecimal(totalAmount))
+                .fallback(false)
                 .build();
 
-        Mcc mcc = Mcc.builder()
-                .codes(List.of("5411"))
-                .account("FOOD")
+        TransactionStatusDTO transactionStatusDTO = TransactionStatusDTO.builder()
+                .code(transactionCode)
                 .build();
 
-        when(mccRepository.findByCode("5411")).thenReturn(Optional.of(mcc));
+        when(transactionEvaluator.evaluate(any(TransactionDTO.class))).thenReturn(transactionStatusDTO);
 
-        Account account = Account.builder()
-                .code("FOOD")
-                .balance(new BigDecimal(balance))
-                .build();
+        TransactionStatusDTO evaluation = evaluateTransactionUseCase.execute(transactionDTO);
 
-        when(accountRepository.findByCode("FOOD")).thenReturn(Optional.of(account));
-
-        TransactionStatusDTO transactionStatusDTO = evaluateTransactionUseCase.execute(transactionDTO);
-
-        verify(mccRepository).findByCode("5411");
-        verify(accountRepository).findByCode("FOOD");
-        assertEquals(TransactionStatusCode.APPROVED.getCode(), transactionStatusDTO.getCode());
+        assertEquals(transactionCode, evaluation.getCode());
+        verify(transactionEvaluator).evaluate(transactionDTO);
+        verify(fallbackTransactionEvaluator, never()).evaluate(any(TransactionDTO.class));
     }
 
-    @Test
-    public void givenValidMccAndAccountWithInsufficientBalance_thenShouldReturnRejectTransaction() {
+    @ParameterizedTest
+    @MethodSource("transactionsTestCases")
+    public void testExecuteWithFallbackTransaction(String transactionCode) {
         TransactionDTO transactionDTO = TransactionDTO.builder()
-                .mcc("5411")
-                .totalAmount(new BigDecimal("2.0"))
+                .fallback(true)
                 .build();
 
-        Mcc mcc = Mcc.builder()
-                .codes(List.of("5411"))
-                .account("FOOD")
+        TransactionStatusDTO transactionStatusDTO = TransactionStatusDTO.builder()
+                .code(TransactionStatusCode.REJECTED.getCode())
                 .build();
 
-        when(mccRepository.findByCode("5411")).thenReturn(Optional.of(mcc));
+        when(transactionEvaluator.evaluate(any(TransactionDTO.class))).thenReturn(transactionStatusDTO);
 
-        Account account = Account.builder()
-                .code("FOOD")
-                .balance(new BigDecimal("1.0"))
+        TransactionStatusDTO fallbackTransactionStatusDTO = TransactionStatusDTO.builder()
+                .code(transactionCode)
                 .build();
 
-        when(accountRepository.findByCode("FOOD")).thenReturn(Optional.of(account));
+        when(fallbackTransactionEvaluator.evaluate(any(TransactionDTO.class))).thenReturn(fallbackTransactionStatusDTO);
 
-        TransactionStatusDTO transactionStatusDTO = evaluateTransactionUseCase.execute(transactionDTO);
+        TransactionStatusDTO evaluation = evaluateTransactionUseCase.execute(transactionDTO);
 
-        verify(mccRepository).findByCode("5411");
-        verify(accountRepository).findByCode("FOOD");
-        assertEquals(TransactionStatusCode.REJECTED.getCode(), transactionStatusDTO.getCode());
+        assertEquals(transactionCode, evaluation.getCode());
+
+        verify(transactionEvaluator).evaluate(transactionDTO);
+        verify(fallbackTransactionEvaluator).evaluate(transactionDTO);
     }
-
-
 }
