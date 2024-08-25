@@ -1,9 +1,10 @@
-package com.campestrini.transactions.usecase.strategy;
+package com.campestrini.transactions.service.strategy;
 
 import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusCode;
 import com.campestrini.transactions.domain.dto.TransactionStatusDTO;
-import com.campestrini.transactions.usecase.AccountService;
+import com.campestrini.transactions.service.AccountService;
+import com.campestrini.transactions.service.AccountServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

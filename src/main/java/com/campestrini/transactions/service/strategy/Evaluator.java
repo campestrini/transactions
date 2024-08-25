@@ -1,4 +1,4 @@
-package com.campestrini.transactions.usecase.strategy;
+package com.campestrini.transactions.service.strategy;
 
 import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusDTO;

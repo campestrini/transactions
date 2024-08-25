@@ -1,4 +1,4 @@
-package com.campestrini.transactions.usecase.strategy;
+package com.campestrini.transactions.service.strategy;
 
 import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusCode;
@@ -7,7 +7,8 @@ import com.campestrini.transactions.domain.model.Mcc;
 import com.campestrini.transactions.domain.model.Merchant;
 import com.campestrini.transactions.domain.repository.MerchantRepository;
 import com.campestrini.transactions.infrastructure.repository.MCCRepositoryImpl;
-import com.campestrini.transactions.usecase.AccountService;
+import com.campestrini.transactions.service.AccountService;
+import com.campestrini.transactions.service.AccountServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

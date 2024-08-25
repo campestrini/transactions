@@ -1,9 +1,7 @@
-package com.campestrini.transactions.usecase;
+package com.campestrini.transactions.service;
 
-import com.campestrini.transactions.domain.dto.TransactionStatusDTO;
 import com.campestrini.transactions.domain.model.Account;
 import com.campestrini.transactions.domain.repository.AccountRepository;
-import com.campestrini.transactions.usecase.strategy.AccountServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +18,13 @@ public class AccountService {
         Optional<Account> result = accountRepository.findByCode(accountCode);
 
         if(result.isEmpty()) {
-            throw new AccountServiceException("Account Not found");
+            throw new AccountServiceException("Account not found");
         }
 
         Account account = result.get();
 
         if(!this.hasSufficientBalance(account, totalAmount)) {
-            throw new AccountServiceException("Insufficient Balance");
+            throw new AccountServiceException("Insufficient balance");
         }
 
         updateAccountBalance(account, totalAmount);

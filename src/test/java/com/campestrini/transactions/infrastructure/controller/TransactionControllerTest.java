@@ -66,7 +66,7 @@ public class TransactionControllerTest {
                 .account("account")
                 .totalAmount(new BigDecimal(totalAmount))
                 .mcc("1234")
-                .seller("seller")
+                .merchant("merchant")
                 .fallback(false)
                 .build();
 
@@ -84,7 +84,7 @@ public class TransactionControllerTest {
                 .account("account")
                 .totalAmount(new BigDecimal("1.0"))
                 .mcc("1")
-                .seller("seller")
+                .merchant("merchant")
                 .fallback(false)
                 .build();
 
@@ -102,7 +102,7 @@ public class TransactionControllerTest {
                 .account("account")
                 .totalAmount(new BigDecimal("1.0"))
                 .mcc("1234")
-                .seller("seller")
+                .merchant("merchant")
                 .fallback(false)
                 .build();
 
@@ -126,7 +126,7 @@ public class TransactionControllerTest {
                 .account("account")
                 .totalAmount(new BigDecimal("1.0"))
                 .mcc("1234")
-                .seller("seller")
+                .merchant("merchant")
                 .fallback(false)
                 .build();
 

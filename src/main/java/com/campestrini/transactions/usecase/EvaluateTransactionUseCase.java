@@ -3,8 +3,8 @@ package com.campestrini.transactions.usecase;
 import com.campestrini.transactions.domain.dto.TransactionDTO;
 import com.campestrini.transactions.domain.dto.TransactionStatusCode;
 import com.campestrini.transactions.domain.dto.TransactionStatusDTO;
-import com.campestrini.transactions.usecase.strategy.FallbackTransactionEvaluator;
-import com.campestrini.transactions.usecase.strategy.TransactionEvaluator;
+import com.campestrini.transactions.service.strategy.FallbackTransactionEvaluator;
+import com.campestrini.transactions.service.strategy.TransactionEvaluator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

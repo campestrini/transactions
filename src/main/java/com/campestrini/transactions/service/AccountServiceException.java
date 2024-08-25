@@ -1,4 +1,4 @@
-package com.campestrini.transactions.usecase.strategy;
+package com.campestrini.transactions.service;
 
 
 public class AccountServiceException extends Exception {
