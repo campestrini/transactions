@@ -2,6 +2,7 @@ package com.campestrini.transactions.domain.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
+@Data
 public class TransactionDTO {
     @NotBlank(message = "Id is required")
     private String id;
