@@ -48,7 +48,7 @@ public class TransactionControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.account").value("Account is required"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.totalAmount").value("Total Amount must not be null"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.mcc").value("Mcc is required"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.seller").value("Seller is required"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.merchant").value("Merchant is required"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fallback").value("Fallback is required"));
     }
 

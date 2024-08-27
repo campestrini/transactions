@@ -34,27 +34,24 @@ public class TransactionEvaluator implements Evaluator {
     @Override
     public TransactionStatusDTO evaluate(TransactionDTO transactionDTO) {
 
-        logger.info("Fetching merchant with id '{}'", transactionDTO.getMerchant());
+        logger.info("[TransactionEvaluator] Fetching merchant with id '{}'", transactionDTO.getMerchant());
         Optional<Merchant> merchantResult = merchantRepository.findByName(transactionDTO.getMerchant());
 
         if (merchantResult.isPresent()) {
-            logger.info("Merchant with id '{}' exists", transactionDTO.getMerchant());
+            logger.info("[TransactionEvaluator] Merchant with id '{}' exists", transactionDTO.getMerchant());
             Merchant merchant = merchantResult.get();
             return chargeAccount(merchant.getAccount(), transactionDTO.getTotalAmount());
         }
 
-        logger.info("No merchant with id '{}'", transactionDTO.getMerchant());
-
-        logger.info("Fetching MCC with id '{}'", transactionDTO.getMcc());
+        logger.info("[TransactionEvaluator] Fetching MCC with id '{}'", transactionDTO.getMcc());
         Optional<Mcc> mccResult = mccRepository.findByCode(transactionDTO.getMcc());
 
         if (mccResult.isPresent()) {
-            logger.info("MCC with id '{}' exists", transactionDTO.getMcc());
+            logger.info("[TransactionEvaluator] MCC with id '{}' exists", transactionDTO.getMcc());
             Mcc mcc = mccResult.get();
             return chargeAccount(mcc.getAccount(), transactionDTO.getTotalAmount());
         }
 
-        logger.info("No MCC with id '{}'", transactionDTO.getMcc());
         return TransactionStatusDTO.builder().code(TransactionStatusCode.REJECTED.getCode()).build();
     }
 

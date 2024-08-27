@@ -22,6 +22,8 @@ db.merchants.insertMany([
 ]);
 
 db.mccs.insertMany([
-    { codes: ["5411", "5412"], account: "FOOD" },
-    { codes: ["5811", "5812"], account: "MEAL" }
+    { code: "5411", account: "FOOD" },
+    { code: "5412", account: "FOOD" },
+    { code: "5811", account: "MEAL" },
+    { code: "5812", account: "MEAL" }
 ]);

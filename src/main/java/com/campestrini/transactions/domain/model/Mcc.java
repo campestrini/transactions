@@ -16,6 +16,6 @@ import java.util.List;
 public class Mcc {
     @Id
     private String id;
-    private List<String> codes;
+    private String code;
     private String account;
 }

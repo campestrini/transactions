@@ -5,5 +5,5 @@ import com.campestrini.transactions.domain.model.Mcc;
 import java.util.Optional;
 
 public interface MCCRepository {
-    public Optional<Mcc> findByCode(String code);
+    Optional<Mcc> findByCode(String code);
 }

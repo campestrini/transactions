@@ -100,7 +100,7 @@ public class TransactionEvaluatorTest {
         when(merchantRepository.findByName("invalid merchant")).thenReturn(Optional.empty());
 
         Mcc mcc = Mcc.builder()
-                .codes(List.of("5411"))
+                .code("5411")
                 .account("FOOD")
                 .build();
 
@@ -130,7 +130,7 @@ public class TransactionEvaluatorTest {
         when(merchantRepository.findByName("invalid merchant")).thenReturn(Optional.empty());
 
         Mcc mcc = Mcc.builder()
-                .codes(List.of("5411"))
+                .code("5411")
                 .account("FOOD")
                 .build();
 

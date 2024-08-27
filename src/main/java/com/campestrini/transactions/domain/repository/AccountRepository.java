@@ -5,7 +5,7 @@ import com.campestrini.transactions.domain.model.Account;
 import java.util.Optional;
 
 public interface AccountRepository {
-    public Optional<Account> findByCode(String code);
+    Optional<Account> findByCode(String code);
 
-    public void save(Account account);
+    void save(Account account);
 }

@@ -21,8 +21,7 @@ public class EvaluateTransactionUseCase {
 
 
     public TransactionStatusDTO execute(TransactionDTO transactionDTO) {
-
-        logger.info("Evaluating transaction: {}", transactionDTO);
+        logger.info("[EvaluateTransactionUseCase] Evaluating transaction: {}", transactionDTO);
 
         TransactionStatusDTO transactionStatusDTO = transactionEvaluator.evaluate(transactionDTO);
 
@@ -31,6 +30,8 @@ public class EvaluateTransactionUseCase {
         }
 
         if (transactionStatusDTO.getCode().equals(TransactionStatusCode.REJECTED.getCode())) {
+            logger.info("[EvaluateTransactionUseCase] Evaluating fallback transaction: {}", transactionDTO);
+
             return fallbackTransactionEvaluator.evaluate(transactionDTO);
         }
 

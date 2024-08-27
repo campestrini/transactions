@@ -16,6 +16,6 @@ public class MCCRepositoryImpl implements MCCRepository {
     private final MCCMongoRepository mccMongoRepository;
     @Override
     public Optional<Mcc> findByCode(String code) {
-        return Optional.ofNullable(mccMongoRepository.findByCodesContaining(code));
+        return Optional.ofNullable(mccMongoRepository.findByCode(code));
     }
 }
