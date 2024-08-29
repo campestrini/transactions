@@ -1,19 +1,6 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: transactions
-    environment:
-      MONGODB_HOST: mongodb
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongodb
-    networks:
-      - transactions-network
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -24,19 +11,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-    networks:
-      - transactions-network
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
-      interval: 10s
-      timeout: 10s
-      retries: 5
-      start_period: 40s
-
-networks:
-  transactions-network:
-    driver: bridge
-
 volumes:
   mongodb_data:
     driver: local

@@ -22,7 +22,7 @@ public class AccountService {
     public void chargeAccount(String accountCode, BigDecimal totalAmount) throws AccountServiceException {
         Optional<Account> result = accountRepository.findByCode(accountCode);
 
-        logger.info("[AccountService] Fetching account '{}'", accountCode);
+        logger.info("[AccountService] Fetching '{}' account", accountCode);
 
         if(result.isEmpty()) {
             logger.info("[AccountService] Account with code '{}' not found", accountCode);
@@ -46,7 +46,7 @@ public class AccountService {
 
     private void updateAccountBalance(Account account, BigDecimal totalAmount ) {
         BigDecimal updatedBalance = account.getBalance().subtract(totalAmount);
-        logger.info("[AccountService] Updating balance of account '{}' to '{}' ", account.getCode(), updatedBalance);
+        logger.info("[AccountService] Updating balance of '{}' account to '{}' ", account.getCode(), updatedBalance);
         account.setBalance(updatedBalance);
         accountRepository.save(account);
     }
