@@ -10,7 +10,7 @@
 
 ## Exemplo de requisição
 
-    `curl --location 'localhost:8080/transactions' \
+    curl --location 'localhost:8080/transactions' \
     --header 'Content-Type: application/json' \
     --data '{
     "id": "transaction-id",
@@ -19,13 +19,13 @@
     "mcc": "5811",
     "merchant": "PADARIA DO ZE               SAO PAULO BR",
     "fallback":  false
-    }'`
+    }'
 
 ![requisicao.png](requisicao.png)
 
 ![execucao.png](execucao.png)
 
-## Exemplo de requisição
+## Questão L4
 
 Utilizar Optimistic Locking, adicionando o atributo "version" a cada registro da tabela account.
 Quando duas transações tentam atualizar o mesmo registro simultaneamente, a transação que submete a atualização com um valor de version desatualizado será rejeitada.
